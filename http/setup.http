@@ -1,0 +1,20 @@
+POST http://localhost:8001/services
+Content-Type: application/x-www-form-urlencoded
+
+name=user-api&url=http://user-api:5000
+
+###
+POST http://localhost:8001/services/user-api/routes
+Content-Type: application/x-www-form-urlencoded
+
+# strip_path=false&paths[]=/api/v1/users&name=user-route
+strip_path=true&paths[]=/services/users&name=user-route
+
+
+###
+GET http://localhost:8000/services/users/api/v1/users/1
+
+### reset
+DELETE http://localhost:8001/services/user-api/routes/user-route
+###
+DELETE http://localhost:8001/services/user-api
