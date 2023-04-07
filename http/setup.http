@@ -7,14 +7,39 @@ name=user-api&url=http://user-api:5000
 POST http://localhost:8001/services/user-api/routes
 Content-Type: application/x-www-form-urlencoded
 
-# strip_path=false&paths[]=/api/v1/users&name=user-route
-strip_path=true&paths[]=/services/users&name=user-route
+strip_path=false&paths[]=/api/v1/users&name=user-route
+
+###
+POST http://localhost:8001/services
+Content-Type: application/x-www-form-urlencoded
+
+name=task-api&url=http://task-api:5000
+
+###
+POST http://localhost:8001/services/task-api/routes
+Content-Type: application/x-www-form-urlencoded
+
+strip_path=false&paths[]=/api/v1/tasks&name=task-route
+# strip_path=true&paths[]=/services/users&name=user-route
 
 
 ###
-GET http://localhost:8000/services/users/api/v1/users/1
 
-### reset
-DELETE http://localhost:8001/services/user-api/routes/user-route
+POST http://localhost:8001/upstreams
+Content-Type: application/x-www-form-urlencoded
+
+name=user-api
+
 ###
-DELETE http://localhost:8001/services/user-api
+POST http://localhost:8001/upstreams/user-api/targets
+Content-Type: application/x-www-form-urlencoded
+
+target=user-api:5000
+
+
+
+
+
+
+
+

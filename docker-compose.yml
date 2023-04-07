@@ -2,20 +2,22 @@ version: '3.8'
 
 services:
   task-api:
+    image: task-api:1.0
     build: 
       context: ./task-api
       dockerfile: Dockerfile
-    container_name: task-api
-    ports: 
-      - "5001:5000"
+    # container_name: task-api
+    # ports: 
+    #   - "5001:5000"
 
   user-api:
+    image: user-api:1.0
     build: 
       context: ./user-api
       dockerfile: Dockerfile
-    container_name: user-api
-    ports: 
-      - "5002:5000"
+    # container_name: user-api
+    # ports: 
+    #   - "5002:5000"
   
   kong-database:
     container_name: kong-database
