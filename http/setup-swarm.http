@@ -1,0 +1,25 @@
+POST http://localhost:8001/services
+Content-Type: application/x-www-form-urlencoded
+
+name=user-api&url=http://kong_user-api:5000
+
+###
+POST http://localhost:8001/services/user-api/routes
+Content-Type: application/x-www-form-urlencoded
+
+strip_path=false&paths[]=/api/v1/users&name=user-route
+
+###
+POST http://localhost:8001/services
+Content-Type: application/x-www-form-urlencoded
+
+name=task-api&url=http://kong_task-api:5000
+
+###
+POST http://localhost:8001/services/task-api/routes
+Content-Type: application/x-www-form-urlencoded
+
+strip_path=false&paths[]=/api/v1/tasks&name=task-route
+# strip_path=true&paths[]=/services/users&name=user-route
+
+

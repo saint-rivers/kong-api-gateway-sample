@@ -1,0 +1,34 @@
+version: '3.8'
+
+networks:
+  my-network:
+    external: true
+
+services:
+  task-api:
+    image: task-api:1.0
+    build:
+      context: ./task-api
+      dockerfile: Dockerfile
+    ports:
+      - "5000"
+    deploy:
+      mode: replicated
+      replicas: 3
+    networks:
+      - my-network
+
+  user-api:
+    image: user-api:1.0
+    build:
+      context: ./user-api
+      dockerfile: Dockerfile
+    ports:
+      - "5000"
+    deploy:
+      mode: replicated
+      replicas: 3
+    networks:
+      - my-network
+    environment:
+      - USER_API=http://kong_kong-gateway:8000

@@ -1,44 +1,23 @@
 version: '3.8'
 
-services:
-  task-api:
-    image: task-api:1.0
-    build:
-      context: ./task-api
-      dockerfile: Dockerfile
-    # container_name: task-api
-    environment:
-      - USER_API=http://kong:8000
-    ports:
-      - "5000"
-    deploy:
-      mode: replicated
-      replicas: 3
+networks:
+  my-network:
+    external: true
 
-  user-api:
-    image: user-api:1.0
-    build:
-      context: ./user-api
-      dockerfile: Dockerfile
-    # container_name: user-api
-    ports:
-      - "5000"
-    deploy:
-      mode: replicated
-      replicas: 3
-      
+services:
+
   kong-database:
-    container_name: kong-database
     image: postgres:14.4-alpine
     ports:
-      - "5433:5432"
+      - "5432"
     environment:
       - POSTGRES_USER=kong
       - POSTGRES_PASSWORD=kongpass
       - POSTGRES_DB=kong
+    networks:
+      - my-network
 
   kong-migration:
-    container_name: kong-migration
     image: kong:3.2.2-alpine
     environment:
       KONG_DATABASE: postgres
@@ -47,14 +26,14 @@ services:
       KONG_PASSWORD: test
     depends_on:
       - kong-database
-    restart: on-failure
     entrypoint:
       - "kong"
       - "migrations"
       - "bootstrap"
+    networks:
+      - my-network
 
   kong-gateway:
-    container_name: kong
     image: kong:3.2.2-alpine
     environment:
       KONG_DATABASE: postgres
@@ -65,9 +44,10 @@ services:
     depends_on:
       - kong-database
       - kong-migration
-    restart: on-failure
     ports:
-      - "8000:8000"
-      - "8001:8001"
-      - "8443:8443"
-      - "8444:8444"
+      - "8000"
+      - "8001"
+      - "8443"
+      - "8444"
+    networks:
+      - my-network

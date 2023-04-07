@@ -8,3 +8,6 @@ GET http://localhost:5001/api/v1/tasks
 
 ###
 GET http://localhost:8000/api/v1/tasks
+
+###
+GET http://localhost:8000/api/v1/users
